@@ -10,23 +10,20 @@ class ChoiceRepository extends ChangeNotifier{
 
   ChoiceModel mo = ChoiceModel(
     focusedIndex: 0, 
+    dragCost: -1,
     top_drag: 0, left_drag: 0, 
     visible: false, startAnimText: false, isAbleGoBattle:false,
     choicedMonsterCosts: [-1,-1,-1], 
     rippleBools: [false,false,false], 
-    partyBools: [false,false,false], partyZoneInsetsBools: [false,false,false],
-    cardChoicedBools: [
-      for(var i=0; i<10; i++)...[
-        false
-      ]
-    ],
+    // partyBools: [false,false,false], 
+    partyZoneInsetsBools: [false,false,false],
+    // cardChoicedBools: [
+    //   for(var i=0; i<10; i++)...[
+    //     false
+    //   ]
+    // ],
     costOpacityList: [
       for(var i=0; i<15; i++)...[
-        1
-      ]
-    ], 
-    cardOpacityList: [
-      for(var i=0; i<10; i++)...[
         1
       ]
     ], 
@@ -44,15 +41,15 @@ class ChoiceRepository extends ChangeNotifier{
   }
 
 
-  void partyBoolChange(int index,bool bool){
-    mo.partyBools[index] = bool;
-    notifyListeners();
-  }
+  // void partyBoolChange(int index,bool bool){
+  //   mo.partyBools[index] = bool;
+  //   notifyListeners();
+  // }
 
-  void cardChiocedChange(int index,bool bool){
-    mo.cardChoicedBools[index] = bool;
-    notifyListeners();
-  }
+  // void cardChiocedChange(int index,bool bool){
+  //   mo.cardChoicedBools[index] = bool;
+  //   notifyListeners();
+  // }
 
   void costOpaChangeRand(){
     int random = Random().nextInt(15);
@@ -65,10 +62,6 @@ class ChoiceRepository extends ChangeNotifier{
     notifyListeners();
   }
 
-  void cardOpaChange(int index,double cardOpacity){
-    mo.cardOpacityList[index] = cardOpacity;
-    notifyListeners();
-  }
 
   void cardRippleStart(List<GlobalKey> keylist, double safeAreaTop){
     for(var i=0;i<3;i++){
@@ -102,7 +95,7 @@ class ChoiceRepository extends ChangeNotifier{
   void cardLongPressStart({
     required LongPressStartDetails details,
     required List<GlobalKey> keylist,
-    required int index,
+    required int cardIndex,
     required double dragCardWidth,
     }){
     mo.visible = true;
@@ -111,10 +104,15 @@ class ChoiceRepository extends ChangeNotifier{
     mo.rippleBools.forEach((element) {
       element = true;
     });
+    mo.dragCost = cardIndex;
     notifyListeners();
   }
 
-  void cardLongPressEnd(LongPressEndDetails details,List<GlobalKey> keylist,int index){
+  void cardLongPressEnd(
+    LongPressEndDetails details,
+    List<GlobalKey> keylist,
+    int index
+    ){
     mo.visible = false;
     mo.rippleBools.forEach((element) {
       element = false;
@@ -142,16 +140,22 @@ class ChoiceRepository extends ChangeNotifier{
 
 
     if(vertical && horizontal != -1){
-      mo.partyBools[horizontal] = true;
+      // mo.partyBools[horizontal] = true;
       partyInsetsBoolChange(horizontal, true);
-      mo.cardChoicedBools[mo.focusedIndex] = true;
-    }
-    else{
-      mo.cardOpacityList[index] = 1.0;
+      // mo.cardChoicedBools[mo.focusedIndex] = true;
+      mo.choicedMonsterCosts[horizontal] = mo.dragCost;
     }
 
+    print(mo.choicedMonsterCosts);
+
+
     //パーティーが3体揃っていればの処理
-    if(mo.partyBools.every((element) => element == true)){
+    // if(mo.partyBools.every((element) => element == true)){
+    //   mo.isAbleGoBattle = true;
+    // }
+    mo.dragCost = -1;
+
+    if(mo.choicedMonsterCosts.every((element) => element != -1)){
       mo.isAbleGoBattle = true;
     }
 

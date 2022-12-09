@@ -55,9 +55,9 @@ class Partyzone extends ConsumerWidget{
   @override
   Widget build(context,WidgetRef ref){
     final prov = ref.watch(choiceProvider);
-    final partyBools = prov.mo.partyBools; 
+    // final partyBools = prov.mo.partyBools; 
 
-    if(partyBools[index]){
+    if(prov.mo.choicedMonsterCosts != -1){
       return DragCard(dragCardWidth: boxHeight,);
     }
 
@@ -93,23 +93,23 @@ class PartyZoneGesture extends ConsumerWidget{
       } :
       null,
       onLongPressStart: insetBool ? (details) {
-        prov.cardLongPressStart(
-          details: details, 
-          keylist: keylist, 
-          index: index, 
-          dragCardWidth: boxHeight,
-          );
-        prov.partyInsetsBoolChange(index, false);
-        prov.partyBoolChange(index, false);
+        // prov.cardLongPressStart(
+        //   details: details, 
+        //   keylist: keylist, 
+        //   index: index, 
+        //   dragCardWidth: boxHeight,
+        //   );
+        // prov.partyInsetsBoolChange(index, false);
+        // prov.partyBoolChange(index, false);
       } : null,
       onLongPressMoveUpdate: (details) {
-        prov.dragpositionChange(
-          details: details,
-          dragCardWidth: boxHeight
-        );
+        // prov.dragpositionChange(
+        //   details: details,
+        //   dragCardWidth: boxHeight
+        // );
       } ,
       onLongPressEnd: (details) {
-        prov.cardLongPressEnd(details, keylist, index);
+        // prov.cardLongPressEnd(details, keylist, index);
       } ,
       child: Partyzone(index: index,boxHeight: boxHeight,),
     );

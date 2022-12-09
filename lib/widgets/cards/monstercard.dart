@@ -60,6 +60,7 @@ class MonsterCard extends ConsumerWidget{
   @override
   Widget build(BuildContext context,WidgetRef ref){
     final prov = ref.watch(choiceProvider);
+    final choicedCosts = prov.mo.choicedMonsterCosts;
 
     return SizedBox(
       height: monsterCardWidth * 1.5,width: monsterCardWidth,
@@ -73,31 +74,31 @@ class MonsterCard extends ConsumerWidget{
           prov.costOpaChangeRand();
         },
         onLongPressStart:(details) {
-          if(!prov.mo.cardChoicedBools[index]){
+          // if(choicedCosts.contains(index)) {
             prov.cardLongPressStart(
               details: details, 
               keylist: keylist, 
-              index: index, 
+              cardIndex: index, 
               dragCardWidth: dragCardWidth,
               );
             prov.cardRippleStart(keylist,safeAreaTop);
-            prov.cardOpaChange(index, 0.3);
+            // prov.cardOpaChange(index, 0.3);
             // prov.cardChiocedChange(index, true);
-          }
+          // }
         },
 
         onLongPressMoveUpdate: (details){
-          if(!prov.mo.cardChoicedBools[index]){
+          // if(!prov.mo.cardChoicedBools[index]){
             prov.dragpositionChange(
               details:details,
               dragCardWidth: dragCardWidth
               );
-          }
+          // }
         },
         onLongPressEnd: (details)  {
-          if(!prov.mo.cardChoicedBools[index]){
+          // if(!prov.mo.cardChoicedBools[index]){
             prov.cardLongPressEnd(details, keylist, index);
-          }
+          // }
         },
 
         

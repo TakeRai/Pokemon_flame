@@ -63,7 +63,7 @@ class GestureDragCard extends ConsumerWidget{
     return GestureDetector(
       key: keylist[index],
       onTap: (){
-        prov.partyBoolChange(index, false);
+        // prov.partyBoolChange(index, false);
       },
       child: DragCard(
         dragCardWidth: dragCardWidth,

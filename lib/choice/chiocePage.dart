@@ -111,7 +111,11 @@ class ChoicePageState extends ConsumerState<ChoicePage>{
                     itemBuilder: (p0, p1) {
                       return MonsterCard(
                         keylist: _key,
-                        opacity: choiceprov.mo.cardOpacityList[p1],
+                        // opacity: choiceprov.mo.cardOpacityList[p1],
+                        opacity: 
+                          choiceprov.mo.choicedMonsterCosts.contains(p1) || 
+                          choiceprov.mo.dragCost == p1
+                          ? 0.3 : 1,
                         index: p1,
                         monsterCardWidth: deviceWidth * 0.45,
                         dragCardWidth: deviceWidth * 0.78 /3,
