@@ -45,23 +45,24 @@ class MagicBox extends StatelessWidget{
 class Partyzone extends ConsumerWidget{
   const Partyzone({
     Key? key,
-    required this.index,
+    required this.partyZoneIndex,
     required this.boxHeight,
     }):super(key: key);
 
-  final int index;
+  final int  partyZoneIndex;
   final double boxHeight;
 
   @override
   Widget build(context,WidgetRef ref){
     final prov = ref.watch(choiceProvider);
-    // final partyBools = prov.mo.partyBools; 
 
-    if(prov.mo.choicedMonsterCosts != -1){
-      return DragCard(dragCardWidth: boxHeight,);
+    if(prov.mo.choicedMonsterCosts[partyZoneIndex] <0){
+      return MagicBox( index: partyZoneIndex,boxHeight: boxHeight,);
+    }else if(prov.mo.choicedMonsterCosts[partyZoneIndex] == prov.mo.dragCost){
+      return MagicBox( index: partyZoneIndex,boxHeight: boxHeight,);
     }
 
-    return MagicBox( index: index,boxHeight: boxHeight,);
+    return DragCard(dragCardWidth: boxHeight,);
 
   }
 }
@@ -70,48 +71,52 @@ class PartyZoneGesture extends ConsumerWidget{
   const PartyZoneGesture({
     Key? key,
     required this.keylist,
-    required this.index,
+    required this.partyZoneIndex,
     required this.boxHeight,
     required this.deviceHeight
     }):super(key: key);
 
   final List<GlobalKey> keylist;
-  final int index;
+  final int partyZoneIndex;
   final double boxHeight;
   final double deviceHeight;
 
   @override
   Widget build(context,WidgetRef ref){
     final prov = ref.watch(choiceProvider);
-    final insetBool = prov.mo.partyZoneInsetsBools[index];
+    final indexCosts = prov.mo.choicedMonsterCosts[partyZoneIndex];
+
     return GestureDetector(
-      key: keylist[index],
-      onTap:insetBool ? 
+      key: keylist[partyZoneIndex],
+      onTap:
       () {
-        // prov.partyBoolChange(index, false);
-        print("ok");
-      } :
-      null,
-      onLongPressStart: insetBool ? (details) {
-        // prov.cardLongPressStart(
-        //   details: details, 
-        //   keylist: keylist, 
-        //   index: index, 
-        //   dragCardWidth: boxHeight,
-        //   );
-        // prov.partyInsetsBoolChange(index, false);
-        // prov.partyBoolChange(index, false);
-      } : null,
-      onLongPressMoveUpdate: (details) {
-        // prov.dragpositionChange(
-        //   details: details,
-        //   dragCardWidth: boxHeight
-        // );
-      } ,
-      onLongPressEnd: (details) {
-        // prov.cardLongPressEnd(details, keylist, index);
-      } ,
-      child: Partyzone(index: index,boxHeight: boxHeight,),
+      },
+      onLongPressStart:indexCosts == -1 ? null :
+        (details) {
+          prov.partyZoneDragStart(
+            partyZoneIndex: partyZoneIndex, 
+            details: details, 
+            dragCardWidth:boxHeight
+            );
+        },
+
+      onLongPressMoveUpdate: indexCosts == -1 ? null :
+        (details) {
+          prov.dragpositionChange(
+            details: details, 
+            dragCardWidth: boxHeight
+            );
+        },
+
+      onLongPressEnd: indexCosts == -1 ? null :
+        (details) {
+          prov.partyZoneDragEnd(
+            details: details, 
+            keylist: keylist, 
+            partyZoneIndex: partyZoneIndex,
+            boxHeight: boxHeight);
+        },
+      child: Partyzone(partyZoneIndex: partyZoneIndex,boxHeight: boxHeight,),
     );
   }
 }

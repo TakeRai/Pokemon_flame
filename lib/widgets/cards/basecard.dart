@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon_flame/choice/choiceConfig.dart';
+import 'package:pokemon_flame/widgets/cost/textCostCone.dart';
 import 'package:pokemon_flame/widgets/designedText.dart';
 
 class BaseCard extends StatelessWidget{
   const BaseCard({
     Key? key,
+    required this.costIndex,
     required this.width,
     required this.fontSize
     }):super(key: key);
 
+  final int costIndex;
   final double width;
   final double fontSize;
 
@@ -27,7 +31,9 @@ class BaseCard extends StatelessWidget{
           ),
 
           SizedBox(
-            width: width,height: width * 1.5,
+            width: width,
+            height: width * Config_Choice.cardHeightMagni,
+
             child: Image.asset("assets/images/redcard.png",fit: BoxFit.fill,),
           ),
 
@@ -46,8 +52,17 @@ class BaseCard extends StatelessWidget{
             ),
           ),
 
+          Positioned(
+            top: 0,
+            left: -Config_Choice.cardCostHeight/10,
+            child: TextCostCone(costText: costIndex,)
+            )
+
         ],
       );
   }
 
+
+
 }
+

@@ -11,7 +11,7 @@ class CostCone extends StatelessWidget{
   @override
   Widget build(context){
     //間隔取るためか
-    return Container(
+    return SizedBox(
       width: width,
       height: width,
       child: Center(

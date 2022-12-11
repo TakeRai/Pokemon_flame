@@ -1,6 +1,7 @@
 
 class Config_Choice{
-  final double magicBox_border = 3;
-  final double magicBox_width_height = 103;
-  final int opacitySpeed = 300;
+  static const int cardOpacitySpeed = 300;
+  static const double cardHeightMagni = 1.2;
+  static const double cardWidthMagni = 0.45;
+  static const double cardCostHeight = 50;
 }

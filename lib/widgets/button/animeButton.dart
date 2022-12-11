@@ -62,7 +62,7 @@ class Button1OpacityState extends ConsumerState<Button1Opacity>{
     final prov = ref.watch(choiceProvider);
     return AnimatedOpacity(
       opacity: widget.opacity, 
-      duration: Duration(milliseconds: Config_Choice().opacitySpeed),
+      duration: const Duration(milliseconds: Config_Choice.cardOpacitySpeed),
       child: Button1(text: widget.text,height: widget.height,fontsize: widget.fontsize,),
       );
   }

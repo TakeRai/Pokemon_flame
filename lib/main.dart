@@ -13,9 +13,6 @@ void main() {
   runApp(ProviderScope(child: MyApp()));
 }
 
-// final wholeProvider = ChangeNotifierProvider.autoDispose(
-//   (ref) => WholeRepository(),
-//   );
 
 class MyApp extends StatefulWidget{
   MyApp({super.key});

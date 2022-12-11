@@ -13,7 +13,7 @@ import 'package:pokemon_flame/widgets/cards/monstercard.dart';
 import 'package:pokemon_flame/widgets/cost/costCone.dart';
 import 'package:pokemon_flame/widgets/cost/costconelist.dart';
 import 'package:pokemon_flame/widgets/partyzone.dart';
-import 'package:pokemon_flame/repository/choiceRepository.dart';
+import 'package:pokemon_flame/repository/choiceRepository/choiceRepository.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
@@ -37,6 +37,7 @@ class ChoicePageState extends ConsumerState<ChoicePage>{
   final List<GlobalKey> _key = [
     for(var i=0; i<3; i++)...[
       GlobalKey()
+      
     ]
   ];
 
@@ -52,14 +53,11 @@ class ChoicePageState extends ConsumerState<ChoicePage>{
     
   }
 
-  
-
   @override
   Widget build(context){
 
     final choiceprov = ref.watch(choiceProvider);
     final battleprov = ref.watch(battleProvider);
-    
     final deviceWidth = MediaQuery.of(context).size.width;
     final availableHeight = MediaQuery.of(context).size.height 
       - AppBar().preferredSize.height 
@@ -106,18 +104,17 @@ class ChoicePageState extends ConsumerState<ChoicePage>{
                 Spacer(flex: 5,),
 
                 SizedBox(
-                  height: deviceWidth * 0.45 * 1.2,
+                  height: deviceWidth * Config_Choice.cardWidthMagni * Config_Choice.cardHeightMagni,
                   child: ScrollSnapList(
                     itemBuilder: (p0, p1) {
                       return MonsterCard(
                         keylist: _key,
-                        // opacity: choiceprov.mo.cardOpacityList[p1],
                         opacity: 
                           choiceprov.mo.choicedMonsterCosts.contains(p1) || 
                           choiceprov.mo.dragCost == p1
                           ? 0.3 : 1,
-                        index: p1,
-                        monsterCardWidth: deviceWidth * 0.45,
+                        costIndex: p1,
+                        monsterCardWidth: deviceWidth * Config_Choice.cardWidthMagni,
                         dragCardWidth: deviceWidth * 0.78 /3,
                         deviceHeight: MediaQuery.of(context).size.height,
                         fontSize: 20,
@@ -125,7 +122,7 @@ class ChoicePageState extends ConsumerState<ChoicePage>{
                         );
                     },
                     itemCount: 10, 
-                    itemSize: deviceWidth * 0.45, 
+                    itemSize: deviceWidth * Config_Choice.cardWidthMagni, 
                     onItemFocus: choiceprov.focusedIndexChange,
                     duration: 100,
                     dynamicItemSize: true,
@@ -135,33 +132,20 @@ class ChoicePageState extends ConsumerState<ChoicePage>{
 
                 Spacer(flex: 4,),
 
-                // const SizedBox(height: 50,),
                 SizedBox(
                   height: availableHeight * 0.2,
                   child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    PartyZoneGesture(
-                      keylist: _key, 
-                      index: 0,
-                      boxHeight: deviceWidth * 0.78 /3,
-                      deviceHeight: MediaQuery.of(context).size.height,
-                      ),
-                    
-                    PartyZoneGesture(
-                      keylist: _key, 
-                      index: 1,
-                      boxHeight: deviceWidth * 0.78 /3,
-                      deviceHeight: MediaQuery.of(context).size.height,
-                      ),
-                    
-                    PartyZoneGesture(
-                      keylist: _key, 
-                      index: 2,
-                      boxHeight: deviceWidth * 0.78 /3,
-                      deviceHeight: MediaQuery.of(context).size.height,
-                      ),
+                    for(var i=0; i<3; i++)...[
+                      PartyZoneGesture(
+                        keylist: _key, 
+                        partyZoneIndex: i, 
+                        boxHeight: deviceWidth * 0.78 /3, 
+                        deviceHeight: MediaQuery.of(context).size.height
+                        )
+                    ],
                   ],
                 ),
                 ),
@@ -195,7 +179,7 @@ class ChoicePageState extends ConsumerState<ChoicePage>{
             
 
             Visibility(
-              visible: choiceprov.mo.visible,
+              visible: choiceprov.mo.dragCost >= 0 ? true : false,
               child: Positioned(
                 top: choiceprov.mo.top_drag - safeAreaTop,
                 left: choiceprov.mo.left_drag,

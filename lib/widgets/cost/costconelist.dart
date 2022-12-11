@@ -16,12 +16,15 @@ class CostConeList extends ConsumerWidget{
   @override
   Widget build(context,WidgetRef ref){
     final prov = ref.watch(choiceProvider);
-    final opacitylist = prov.mo.costOpacityList;
+
+    int sumCosts = 0;
+    sumCosts = prov.mo.choicedMonsterCosts.reduce((value, element) => value + element);
+    sumCosts += 3;
 
     final List<Widget> list_here = [
       for(var i=0; i<15; i++)...[
         CostConeAnimated(
-          opacity: opacitylist[i],
+          opacity: i<sumCosts ? 0.3 : 1.0,
           width: coneWidth,
           )
       ]
@@ -38,6 +41,7 @@ class CostConeList extends ConsumerWidget{
           SizedBox(
             height: coneWidth * 1.25,
             child: Row(
+              textDirection: TextDirection.rtl,
               children: [
                 for(var i=0;i<8;i++)...[
                   list_here[i*2]
@@ -49,6 +53,7 @@ class CostConeList extends ConsumerWidget{
           SizedBox(
             height: coneWidth * 1.25,
             child: Row(
+              textDirection: TextDirection.rtl,
               children: [
                 for(var i=0;i<7;i++)...[
                   list_here[i*2 + 1]

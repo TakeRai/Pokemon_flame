@@ -9,11 +9,13 @@ import 'package:pokemon_flame/widgets/cards/basecard.dart';
 class BaseCardOpacity extends StatelessWidget{
   const BaseCardOpacity({
     Key? key,
+    required this.costIndex,
     required this.opacity,
     required this.width,
     required this.fontSize
     }):super(key: key);
 
+  final int costIndex;
   final double opacity;
   final double width;
   final double fontSize;
@@ -22,8 +24,9 @@ class BaseCardOpacity extends StatelessWidget{
   Widget build(context){
     return AnimatedOpacity(
       opacity: opacity, 
-      duration: Duration(milliseconds: Config_Choice().opacitySpeed),
+      duration: Duration(milliseconds: Config_Choice.cardOpacitySpeed),
       child: BaseCard(
+        costIndex: costIndex,
         width: width,
         fontSize: fontSize,
       ),
@@ -40,7 +43,7 @@ class MonsterCard extends ConsumerWidget{
     Key? key,
     required this.keylist,
     required this.opacity,
-    required this.index,
+    required this.costIndex,
     required this.monsterCardWidth,
     required this.dragCardWidth,
     required this.deviceHeight,
@@ -50,7 +53,7 @@ class MonsterCard extends ConsumerWidget{
 
   final List<GlobalKey> keylist;
   final double opacity;
-  final int index;
+  final int costIndex;
   final double monsterCardWidth;
   final double dragCardWidth;
   final double deviceHeight;
@@ -61,51 +64,46 @@ class MonsterCard extends ConsumerWidget{
   Widget build(BuildContext context,WidgetRef ref){
     final prov = ref.watch(choiceProvider);
     final choicedCosts = prov.mo.choicedMonsterCosts;
+    bool choicedThis = choicedCosts.contains(costIndex);
 
     return SizedBox(
-      height: monsterCardWidth * 1.5,width: monsterCardWidth,
+      height: monsterCardWidth * Config_Choice.cardHeightMagni,
+      width: monsterCardWidth,
       child: GestureDetector(
         child: BaseCardOpacity(
+          costIndex: costIndex,
           opacity: opacity,
           width: monsterCardWidth,
           fontSize: fontSize,
           ),
         onTap: (){
-          prov.costOpaChangeRand();
         },
-        onLongPressStart:(details) {
-          // if(choicedCosts.contains(index)) {
+        onLongPressStart: choicedThis ? null :
+         (details) {
             prov.cardLongPressStart(
               details: details, 
-              keylist: keylist, 
-              cardIndex: index, 
+              cardIndex: costIndex, 
               dragCardWidth: dragCardWidth,
               );
             prov.cardRippleStart(keylist,safeAreaTop);
-            // prov.cardOpaChange(index, 0.3);
-            // prov.cardChiocedChange(index, true);
-          // }
-        },
+         },
 
-        onLongPressMoveUpdate: (details){
-          // if(!prov.mo.cardChoicedBools[index]){
+        onLongPressMoveUpdate: choicedThis ? null :
+        (details){
             prov.dragpositionChange(
               details:details,
               dragCardWidth: dragCardWidth
               );
-          // }
         },
-        onLongPressEnd: (details)  {
-          // if(!prov.mo.cardChoicedBools[index]){
-            prov.cardLongPressEnd(details, keylist, index);
-          // }
+        onLongPressEnd: choicedThis ? null : 
+        (details)  {
+          prov.cardLongPressEnd(
+            details: details, 
+            keylist: keylist, 
+            boxHeight: dragCardWidth
+            );
         },
-
-        
       )
-      
-      
-    
     );
   }
 }
