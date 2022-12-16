@@ -59,12 +59,11 @@ class ChoicePageState extends ConsumerState<ChoicePage>{
     final choiceprov = ref.watch(choiceProvider);
     final battleprov = ref.watch(battleProvider);
     final deviceWidth = MediaQuery.of(context).size.width;
-    final availableHeight = MediaQuery.of(context).size.height 
-      - AppBar().preferredSize.height 
-      - MediaQuery.of(context).padding.top 
-      - MediaQuery.of(context).padding.bottom 
-      - kBottomNavigationBarHeight;
+    final deviceHeight = MediaQuery.of(context).size.height;
     final safeAreaTop = MediaQueryData.fromWindow(ui.window).padding.top;
+    final safeAreaBottom = MediaQueryData.fromWindow(ui.window).padding.bottom;
+    final availableHeight = deviceHeight - safeAreaTop - safeAreaBottom;
+      
 
 
     return Scaffold(

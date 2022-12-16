@@ -3,22 +3,18 @@ import 'dart:ui' as ui;
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
-import 'package:flame/geometry.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokemon_flame/battle/dialogbox.dart';
-import 'package:pokemon_flame/common/Constants.dart';
 import 'package:pokemon_flame/common/types.dart';
-import 'package:pokemon_flame/main.dart';
 import 'package:pokemon_flame/repository/battleRepository.dart';
 import 'package:pokemon_flame/utils/sounds.dart';
 import 'package:pokemon_flame/widgets/button/animeButton.dart';
-import 'package:pokemon_flame/widgets/animeText.dart';
-import 'package:pokemon_flame/widgets/button/moveButton.dart';
-import 'package:pokemon_flame/widgets/designedText.dart';
 import 'package:pokemon_flame/widgets/monsterspot.dart';
 import 'package:pokemon_flame/widgets/movebox.dart';
+import 'package:pokemon_flame/widgets/statusZone/statusZone.dart';
 
 final battleProvider = ChangeNotifierProvider.autoDispose(
   (ref) => BattleRepository(),
@@ -68,16 +64,15 @@ class BattlePageState extends ConsumerState<BattlePage>{
 
     final deviceWidth = MediaQuery.of(context).size.width;
 
-    final availableHeight = MediaQuery.of(context).size.height 
-      - AppBar().preferredSize.height 
-      - MediaQuery.of(context).padding.top 
-      - MediaQuery.of(context).padding.bottom 
-      - kBottomNavigationBarHeight;
-    final dialogHeight = availableHeight * 0.32;
+    final safeAreaTop = MediaQueryData.fromWindow(ui.window).padding.top;
+    final safeAreaBottom = MediaQueryData.fromWindow(ui.window).padding.bottom;
+    final availableHeight = MediaQuery.of(context).size.height - safeAreaTop - safeAreaBottom;
+    final dialogHeight = availableHeight * 0.3;
+    
 
     if(effect1 == null || effect2 == null){
-      return Scaffold(
-        body: CircularProgressIndicator(),
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator(),),
       );
     }
 
@@ -97,6 +92,17 @@ class BattlePageState extends ConsumerState<BattlePage>{
             ),
             child: Stack(
               children: [
+                Positioned(
+                  left: 0,
+                  top: 50,
+                  child: StatusZone(
+                    isPlayer: false,
+                    type1: MonsterTypes.SUN,
+                    type2: MonsterTypes.GOD,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: MediaQuery.of(context).size.width * 0.5 * 0.6,
+                    )
+                  ),
                 Align(
                   alignment: Alignment.bottomLeft,
                   child: Column(
@@ -112,6 +118,18 @@ class BattlePageState extends ConsumerState<BattlePage>{
                     ],
                   ),
                 ),
+
+                Positioned(
+                  right: 0,
+                  bottom: 70,
+                  child: StatusZone(
+                    isPlayer: true,
+                    type1: MonsterTypes.EARTH,
+                    type2: MonsterTypes.MOON,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: MediaQuery.of(context).size.width * 0.5 * 0.6,
+                    )
+                  ),
                 Align(
                   alignment: Alignment.topRight,
                   child: MonsterSpot(
@@ -138,34 +156,34 @@ class BattlePageState extends ConsumerState<BattlePage>{
                       Button1Gesture(
                         opacity: 1,
                         text: "わざ", 
-                        fontsize: 24,
+                        fontsize: 22,
                         tap: (){
                           prov.choiceMove(true);
                         },
-                        height: 80,
+                        height: dialogHeight * 0.35,
                       ),
                     ],
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Button1Gesture(
                         opacity: 1,
                         text: "パーティー", 
-                        fontsize: 24,
+                        fontsize: 22,
                         tap: (){
-                          print("パーティー");
+                          GoRouter.of(context).push("/party");
                         },
-                        height: 80,
+                        height: dialogHeight * 0.35,
                       ),
                       Button1Gesture(
                         opacity: 1,
                         text: "逃げる", 
-                        fontsize: 24,
+                        fontsize: 22,
                         tap: (){
                           print("逃げる");
                         },
-                        height: 80,
+                        height: dialogHeight * 0.35,
                       ),
                     ],
                   )
@@ -231,7 +249,7 @@ class Effect extends PositionComponent with HasGameRef<FlameGame>{
             ]
           ], 
           stepTime: 0.125,
-          loop: true
+          loop: false
           ),
         
       )

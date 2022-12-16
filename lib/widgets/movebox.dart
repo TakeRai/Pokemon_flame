@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import "dart:math";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pokemon_flame/battle/battlePage.dart';
 import 'package:pokemon_flame/common/Constants.dart';
 import 'package:pokemon_flame/common/types.dart';
 import 'package:pokemon_flame/widgets/button/moveButton.dart';
+import 'package:pokemon_flame/widgets/button/moveButtonsGroup.dart';
 import 'package:pokemon_flame/widgets/button/paralleButton.dart';
 
 class MoveBox extends ConsumerStatefulWidget{
 
-  MoveBox({
+  const MoveBox({
     Key? key,
     required this.devicewidth,
     required this.boxHeight
@@ -27,58 +29,41 @@ class MoveBoxState extends ConsumerState<MoveBox>{
 
   @override
   Widget build(context){
+    final prov = ref.watch(battleProvider);
+    double moveButtonWidth = widget.devicewidth * 0.355;
+    //最右の空間
+    final num1 = widget.devicewidth - 
+    (3 + moveButtonWidth * 0.13 /2 + moveButtonWidth * Constants.cornerWidth + moveButtonWidth * 2);
+    final num2 = widget.devicewidth/2 - num1;
+    final double magni = num2/(widget.devicewidth/2);
+    
+
     return Stack(
       children: [
         Align(
-          alignment: Alignment.centerLeft,
-          child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-                children: [
-                  SizedBox(width: 3,),
-                  SizedBox(width: widget.devicewidth * 0.39 * Constants.cornerWidth,),
-                  MoveButton(
-                    moveText: "スレイ", 
-                    width: widget.devicewidth * 0.39, 
-                    type: MonsterTypes.SUN
-                  ),
-                  MoveButton(
-                    moveText: "スレイ", 
-                    width: widget.devicewidth * 0.39, 
-                    type: MonsterTypes.HUMAN
-                  ),
-                ],
-              ),
-
-            SizedBox(height: widget.devicewidth * 0.39 * 0.13,),
-
-            Row(
-                children: [
-                  SizedBox(width: 3,),
-                  MoveButton(
-                    moveText: "スレイ", 
-                    width: widget.devicewidth * 0.39, 
-                    type: MonsterTypes.SUN
-                  ),
-                  MoveButton(
-                    moveText: "スレイ", 
-                    width: widget.devicewidth * 0.39, 
-                    type: MonsterTypes.HUMAN
-                  ),
-                ],
-              ),
-            
-            
-
-        
-          ],
-        ),
+          alignment: Alignment.topLeft,
+          child: MoveButtonsGroup(
+            dialogHeight: widget.boxHeight, 
+            isShadow: true, 
+            moveButtonWidth: moveButtonWidth, 
+            moveTextList: ["","","",""], 
+            moveTypeList: [MonsterTypes.NONE,MonsterTypes.NONE,MonsterTypes.NONE,MonsterTypes.NONE,]
+            ),
         ),
 
         Align(
-          alignment: Alignment(0.685, 0),
+          alignment: Alignment.topLeft,
+          child: MoveButtonsGroup(
+            dialogHeight: widget.boxHeight, 
+            isShadow: false, 
+            moveButtonWidth: moveButtonWidth, 
+            moveTextList: ["ファイア","スレイ","スレイ","バイオ"], 
+            moveTypeList: [MonsterTypes.GOD,MonsterTypes.EARTH,MonsterTypes.MOON,MonsterTypes.HUMAN]
+            ),
+        ),
+
+        Align(
+          alignment: Alignment(magni, 0),
           child: Transform.rotate(
           alignment: Alignment.center,
           angle: 50/161,
@@ -90,23 +75,27 @@ class MoveBoxState extends ConsumerState<MoveBox>{
         )
         ),
 
-        Align(
-          alignment: Alignment.bottomRight,
+        Positioned(
+          left: widget.devicewidth - num1 -3 - 5,
+          bottom: 3,
           child: Container(
             margin: EdgeInsets.only(
-              bottom: (widget.boxHeight - widget.devicewidth*0.52),
-              right: 7
+              bottom: (widget.boxHeight - (moveButtonWidth)) /3,
               ),
             child: ParalleButton(
               onTap: () {
-                print("戻る");
+                print("onTap");
+                prov.choiceMove(false);
+
               },
+              
               text: "戻る", 
               fontSize: 16, 
-              width: 70,
+              width: widget.devicewidth * 0.2,
               )
           )
-        )
+        ),
+        
       ],
     );
   }

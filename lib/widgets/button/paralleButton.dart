@@ -23,26 +23,67 @@ class ParalleButton extends ConsumerStatefulWidget{
 
 class ParalleButtonState extends ConsumerState<ParalleButton>{
 
+  bool pressed = false;
+
   @override
   Widget build(context){
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: Container(
-        height: widget.width/2,
-        width: widget.width,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/button/button_orange.png")
-            ,fit: BoxFit.fill
-          )
-        ),
-        child: Center(
-          child: Text(
-            widget.text,
-            style: desigedStyle(widget.fontSize),
+    return Stack(
+      children: [
+        Container(
+          height: widget.width/2,
+          width: widget.width,
+          margin: EdgeInsets.only(top: widget.width/50,left: widget.width/50),
+          child: Image.asset("assets/images/button/button_orange.png",color: Colors.black.withOpacity(0.5),
           ),
-        ),
-      ),
+          ),
+        
+        GestureDetector(
+          onTap: widget.onTap,
+          onTapDown: (details) {
+            setState(() {
+              pressed = true;
+            });
+          },
+           onTapCancel: () {
+            setState(() {
+              pressed = false;
+            });
+          },
+         
+          child: Container(
+            height: widget.width/2,
+            width: widget.width,
+            margin: EdgeInsets.only(top: pressed ? widget.width/50 : 0,left: pressed ? widget.width/50 : 0),
+            decoration:  BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/button/button_orange.png")
+                ,fit: BoxFit.fill,
+                colorFilter: pressed ? ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.srcATop) : null
+              )
+            ),
+            // child: Stack(children: [
+            //   Image.asset(
+            //     "assets/images/button/button_orange.png",
+            //     width: widget.width,
+            //     height: widget.width/2,
+            //     fit: BoxFit.fill,
+            //   ),
+            //   Center(
+            //   child: Text(
+            //     widget.text,
+            //     style: desigedStyle(widget.fontSize),
+            //   ),
+            // ),
+            // ]),
+            child: Center(
+              child: Text(
+                widget.text,
+                style: desigedStyle(widget.fontSize),
+              ),
+            ),
+          ),
+        )
+      ],
     );
 
   }

@@ -1,3 +1,3 @@
 enum MonsterTypes{
-  GOD,HUMAN,SUN,EARTH,MOON
+  GOD,HUMAN,SUN,EARTH,MOON,NONE
 }

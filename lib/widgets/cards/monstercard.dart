@@ -77,6 +77,11 @@ class MonsterCard extends ConsumerWidget{
           fontSize: fontSize,
           ),
         onTap: (){
+          showDialog(context: context, builder: (context){
+            return Center(
+              child: Text("dialog"),
+            );
+          });
         },
         onLongPressStart: choicedThis ? null :
          (details) {

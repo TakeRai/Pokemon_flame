@@ -44,6 +44,7 @@ dependencies:
   animated_text_kit: ^4.2.2
   hooks_riverpod: ^2.1.1
   flutter_hooks: ^0.18.5+1
+  drop_shadow: ^0.0.1+4
 
 dev_dependencies:
   flutter_test:

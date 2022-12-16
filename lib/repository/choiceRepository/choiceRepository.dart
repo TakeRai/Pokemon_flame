@@ -126,8 +126,7 @@ class ChoiceRepository extends ChangeNotifier{
     mo.dragCost = -1;
 
     print(mo.choicedMonsterCosts);
-
-
+    
     notifyListeners();
   }
 }
