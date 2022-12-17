@@ -108,7 +108,8 @@ class MoveButtonState extends ConsumerState<MoveButton>{
 
     return GestureDetector(
       onTap: (){
-        battleProv.SetHPSmooth();
+        // battleProv.SetHPSmooth();
+        battleProv.PageIndexChange(2);
         },
       onTapDown: (details) {
         setState(() {

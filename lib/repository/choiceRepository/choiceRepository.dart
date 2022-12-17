@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:math';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -15,7 +14,7 @@ class ChoiceRepository extends ChangeNotifier{
     focusedIndex: 0, 
     dragCost: -1,
     top_drag: 0, left_drag: 0, 
-    startAnimText: false, isAbleGoBattle:false,
+    isAbleGoBattle:false,
     choicedMonsterCosts: [-1,-1,-1], 
     ripplelist: <Widget>[const SizedBox(),const SizedBox(),const SizedBox(),]
     );
@@ -24,12 +23,6 @@ class ChoiceRepository extends ChangeNotifier{
     mo.focusedIndex = index;
     notifyListeners();
   }
-
-  void startDelayedText(){
-    mo.startAnimText = true;
-    notifyListeners();
-  }
-
 
   void cardRippleStart(List<GlobalKey> keylist, double safeAreaTop){
     cardRippleStart_F(
@@ -74,10 +67,6 @@ class ChoiceRepository extends ChangeNotifier{
     notifyListeners();
   }
 
-  // void partyInsetsBoolChange(int index,bool bool){
-  //   mo.partyZoneInsetsBools[index] = bool;
-  //   notifyListeners();
-  // }
 
   void partyZoneDragStart({
     required int partyZoneIndex,

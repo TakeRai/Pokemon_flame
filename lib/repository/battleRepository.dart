@@ -3,13 +3,13 @@ import 'package:pokemon_flame/model/battleModel.dart';
 
 class BattleRepository extends ChangeNotifier{
   BattleModel mo = BattleModel(
-    choiceMovesPage: false,
+    pageIndex: 0,
     playerMonsterOpacity: 0,
     playerRemainHP: 400
     );
 
-  void choiceMove(bool bool){
-    mo.choiceMovesPage = bool;
+  void PageIndexChange(int index){
+    mo.pageIndex = index;
     notifyListeners();
   }
   

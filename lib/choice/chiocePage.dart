@@ -7,7 +7,7 @@ import 'package:pokemon_flame/battle/dialogbox.dart';
 import 'package:pokemon_flame/main.dart';
 import 'package:pokemon_flame/widgets/button/animeButton.dart';
 import 'package:pokemon_flame/widgets/ripple/ripple.dart';
-import 'package:pokemon_flame/widgets/animeText.dart';
+import 'package:pokemon_flame/widgets/typedTextDelayed.dart';
 import 'package:pokemon_flame/widgets/cards/dragcards.dart';
 import 'package:pokemon_flame/widgets/cards/monstercard.dart';
 import 'package:pokemon_flame/widgets/cost/costCone.dart';
@@ -40,18 +40,6 @@ class ChoicePageState extends ConsumerState<ChoicePage>{
       
     ]
   ];
-
-  @override
-  void initState(){
-    super.initState();
-    
-    Future.delayed(const Duration(milliseconds: 1000)).then(
-      (value){
-        final choiceprov = ref.watch(choiceProvider);
-        choiceprov.startDelayedText();
-      });
-    
-  }
 
   @override
   Widget build(context){
@@ -156,7 +144,7 @@ class ChoicePageState extends ConsumerState<ChoicePage>{
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      const TypedTextDelayed(text: "モンスターを3体を選ぼう"),
+                      const TypedTextDelayed(text: "モンスターを3体を選ぼう",duration: Duration(milliseconds: 500),),
                       Button1Gesture(
                         opacity: choiceprov.mo.isAbleGoBattle ? 1 :0.3,
                         text: "バトルへ", 

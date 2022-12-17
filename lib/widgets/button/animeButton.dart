@@ -136,13 +136,5 @@ class Button1GestureState extends ConsumerState<Button1Gesture>{
       )
     ],);
 
-    // return GestureDetector(
-    //   onTap: widget.tap,
-    //   child: Button1Opacity(
-    //     opacity: widget.opacity,
-    //     text: widget.text,
-    //     fontsize: widget.fontsize,
-    //     height: widget.height),
-    // );
   }
 }

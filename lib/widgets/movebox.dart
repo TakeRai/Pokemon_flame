@@ -85,8 +85,8 @@ class MoveBoxState extends ConsumerState<MoveBox>{
             child: ParalleButton(
               onTap: () {
                 print("onTap");
-                prov.choiceMove(false);
-
+                // prov.choiceMove(false);
+                prov.PageIndexChange(0);
               },
               
               text: "戻る", 

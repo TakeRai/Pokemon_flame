@@ -8,6 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokemon_flame/battle/dialogbox.dart';
+import 'package:pokemon_flame/battle/initialBox.dart';
+import 'package:pokemon_flame/battle/raptBattleBox.dart';
 import 'package:pokemon_flame/common/types.dart';
 import 'package:pokemon_flame/repository/battleRepository.dart';
 import 'package:pokemon_flame/utils/sounds.dart';
@@ -145,50 +147,18 @@ class BattlePageState extends ConsumerState<BattlePage>{
 
           DialogBox(
             height: dialogHeight, 
-            child: prov.mo.choiceMovesPage ?
-              MoveBox(boxHeight: dialogHeight,devicewidth: deviceWidth) :
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Button1Gesture(
-                        opacity: 1,
-                        text: "わざ", 
-                        fontsize: 22,
-                        tap: (){
-                          prov.choiceMove(true);
-                        },
-                        height: dialogHeight * 0.35,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Button1Gesture(
-                        opacity: 1,
-                        text: "パーティー", 
-                        fontsize: 22,
-                        tap: (){
-                          GoRouter.of(context).push("/party");
-                        },
-                        height: dialogHeight * 0.35,
-                      ),
-                      Button1Gesture(
-                        opacity: 1,
-                        text: "逃げる", 
-                        fontsize: 22,
-                        tap: (){
-                          print("逃げる");
-                        },
-                        height: dialogHeight * 0.35,
-                      ),
-                    ],
-                  )
-                ],
-              )
+            child: ((){
+              switch (prov.mo.pageIndex) {
+                case(0):
+                  return InitialBox(dialogHeight: dialogHeight);
+                case(1):
+                  return MoveBox(boxHeight: dialogHeight,devicewidth: deviceWidth);
+                case(2):
+                  return RaptBattleBox();
+                default:
+                  return const SizedBox();
+              }
+            })(),
             ),
 
         ],
@@ -196,6 +166,8 @@ class BattlePageState extends ConsumerState<BattlePage>{
       )
     );
   }
+
+
 }
 
 class EffectSample extends FlameGame{

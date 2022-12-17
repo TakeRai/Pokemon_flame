@@ -4,21 +4,40 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokemon_flame/choice/chiocePage.dart';
 import 'package:pokemon_flame/widgets/designedText.dart';
 
-class TypedTextDelayed extends ConsumerStatefulWidget{
-  const TypedTextDelayed({Key? key,required this.text}):super(key: key);
+
+class TypedTextDelayed extends StatefulWidget{
+
+  const TypedTextDelayed({
+    Key? key,
+    required this.text,
+    required this.duration
+    }):
+    super(key: key);
 
   final String text;
+  final Duration duration;
 
-  ConsumerState<TypedTextDelayed> createState() => TypedTextDelayedState();
+  State<TypedTextDelayed> createState() => TypedTextDelayedState();
 }
 
-class TypedTextDelayedState extends ConsumerState<TypedTextDelayed>{
+class TypedTextDelayedState extends State<TypedTextDelayed>{
+
+  bool startAnimText = false;
+
+  @override 
+  void initState(){
+    super.initState();
+    Future.delayed(widget.duration).then((value) {
+      setState(() {
+        startAnimText = true;
+      });
+    });
+  }
 
   @override
   Widget build(context){
-    final prov = ref.watch(choiceProvider);
 
-    if(!prov.mo.startAnimText){
+    if(!startAnimText){
       return const SizedBox(
         height: 40,
         child: null,
@@ -38,4 +57,5 @@ class TypedTextDelayedState extends ConsumerState<TypedTextDelayed>{
     );
 
   }
+
 }
