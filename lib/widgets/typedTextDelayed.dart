@@ -22,11 +22,14 @@ class TypedTextDelayed extends StatefulWidget{
 
 class TypedTextDelayedState extends State<TypedTextDelayed>{
 
+
   bool startAnimText = false;
+  
 
   @override 
   void initState(){
     super.initState();
+    print("startAnimText$startAnimText");
     Future.delayed(widget.duration).then((value) {
       setState(() {
         startAnimText = true;
@@ -40,10 +43,8 @@ class TypedTextDelayedState extends State<TypedTextDelayed>{
     if(!startAnimText){
       return const SizedBox(
         height: 40,
-        child: null,
       );
     }
-
     return AnimatedTextKit(
       animatedTexts: [
         TyperAnimatedText(

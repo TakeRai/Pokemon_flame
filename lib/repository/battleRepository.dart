@@ -5,7 +5,8 @@ class BattleRepository extends ChangeNotifier{
   BattleModel mo = BattleModel(
     pageIndex: 0,
     playerMonsterOpacity: 0,
-    playerRemainHP: 400
+    playerRemainHP: 400,
+    animationSwitch: [false,false]
     );
 
   void PageIndexChange(int index){
@@ -19,12 +20,17 @@ class BattleRepository extends ChangeNotifier{
   }
 
   void SetHPSmooth()async{
-    int newPlayerHP = mo.playerRemainHP - 20;
+    int newPlayerHP = mo.playerRemainHP - 50;
 
     while(mo.playerRemainHP > newPlayerHP) {
       mo.playerRemainHP = mo.playerRemainHP -1;
       await Future.delayed(const Duration(milliseconds: 3));
       notifyListeners();
     }
+  }
+
+  void AnimationSwitch(int index,bool bool){
+    mo.animationSwitch[index] = bool;
+    notifyListeners();
   }
 }

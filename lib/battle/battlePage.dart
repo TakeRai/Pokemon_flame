@@ -114,7 +114,7 @@ class BattlePageState extends ConsumerState<BattlePage>{
                         opacity: prov.mo.playerMonsterOpacity, 
                         height: MediaQuery.of(context).size.width * 0.5, 
                         monsterPath: "朱雀1.png", 
-                        effect: GameWidget(game: effect1!)
+                        effect: prov.mo.animationSwitch[0] ? GameWidget(game: effect1!) : SizedBox()
                         ),
                       const SizedBox(height: 20,)
                     ],
@@ -138,7 +138,7 @@ class BattlePageState extends ConsumerState<BattlePage>{
                     opacity: prov.mo.playerMonsterOpacity, 
                     height: deviceWidth * 0.5, 
                     monsterPath: "朱雀1.png", 
-                    effect: GameWidget(game: effect2!)
+                    effect: prov.mo.animationSwitch[1] ? GameWidget(game: effect2!) : const SizedBox()
                     ),
                 )
               ],
