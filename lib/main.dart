@@ -28,30 +28,28 @@ class _MyAppState extends State<MyApp> {
       GoRoute(
         path: "/",
         builder: (context, state) {
-          return SafeArea(child: StartPage());
-          // return blackoutRoute(SafeArea(child: StartPage()));
+          return SafeArea(child: Scaffold(body: StartPage(),));
         },
         ),
 
       GoRoute(
         path: "/home",
         pageBuilder: (context, state) {
-          return blackoutRoute(SafeArea(child: ChoicePage()));
+          return blackoutRoute(ChioceGesturePage());
         },
         
         ),
       GoRoute(
         path: "/battle",
         pageBuilder: (context, state) {
-          return blackoutRoute(SafeArea(child: BattlePage()));
-          // return SafeArea(child: BattlePage());
+          return blackoutRoute(SafeArea(child: Scaffold(body: BattlePage(),)));
         },
       ),
       
       GoRoute(
         path: "/party",
         pageBuilder: (context,state){
-          return blackoutRoute(SafeArea(child: PartyPage()));
+          return blackoutRoute(SafeArea(child: Scaffold(body: PartyPage(),)));
         },
 
       )
@@ -120,6 +118,28 @@ CustomTransitionPage blackoutRoute(Widget page){
     );
 }
 
+class ChioceGesturePage extends ConsumerWidget{
+
+  const ChioceGesturePage({
+    Key? key,
+  }):super(
+    key: key
+  );
+
+  @override
+  Widget build(context,ref){
+    final choiceProv = ref.watch(choiceProvider);
+
+    return GestureDetector(
+      onTap: (){
+        choiceProv.monsterCardTap(-1);
+        print("okok");
+      },
+      child: SafeArea(child: Scaffold(body: ChoicePage())),
+    );
+  }
+
+}
 
 
 

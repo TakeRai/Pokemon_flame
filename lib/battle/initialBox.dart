@@ -6,12 +6,15 @@ import 'package:pokemon_flame/widgets/button/animeButton.dart';
 
 class InitialBox extends ConsumerWidget{
 
-  const InitialBox({
+  
+
+  InitialBox({
     Key? key,
     required this.dialogHeight
   }):super(key: key);
 
   final double dialogHeight;
+  AssetImage buttonImage = AssetImage("assets/images/button_battle3.png");
 
   @override
   Widget build(context,ref){
@@ -32,6 +35,7 @@ class InitialBox extends ConsumerWidget{
                 prov.PageIndexChange(1);
               },
               height: dialogHeight * 0.35,
+              image: buttonImage,
             ),
           ],
         ),
@@ -46,6 +50,7 @@ class InitialBox extends ConsumerWidget{
                 GoRouter.of(context).push("/party");
               },
               height: dialogHeight * 0.35,
+              image: buttonImage,
             ),
             Button1Gesture(
               opacity: 1,
@@ -55,6 +60,7 @@ class InitialBox extends ConsumerWidget{
                 print("逃げる");
               },
               height: dialogHeight * 0.35,
+              image: buttonImage,
             ),
           ],
         )

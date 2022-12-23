@@ -45,6 +45,8 @@ dependencies:
   hooks_riverpod: ^2.1.1
   flutter_hooks: ^0.18.5+1
   drop_shadow: ^0.0.1+4
+  gap: ^2.0.1
+  fl_chart: ^0.55.2
 
 dev_dependencies:
   flutter_test:

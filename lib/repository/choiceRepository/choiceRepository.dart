@@ -13,6 +13,7 @@ class ChoiceRepository extends ChangeNotifier{
   ChoiceModel mo = ChoiceModel(
     focusedIndex: 0, 
     dragCost: -1,
+    infoCost: -1,
     top_drag: 0, left_drag: 0, 
     isAbleGoBattle:false,
     choicedMonsterCosts: [-1,-1,-1], 
@@ -21,6 +22,11 @@ class ChoiceRepository extends ChangeNotifier{
 
   void focusedIndexChange(int index){
     mo.focusedIndex = index;
+    notifyListeners();
+  }
+
+  void monsterCardTap(int index){
+    mo.infoCost = index;
     notifyListeners();
   }
 

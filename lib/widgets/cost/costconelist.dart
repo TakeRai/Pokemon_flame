@@ -5,6 +5,7 @@ import 'package:pokemon_flame/widgets/cost/costCone.dart';
 
 
 
+
 class CostConeList extends ConsumerWidget{
   CostConeList({
     Key? key,
@@ -12,6 +13,8 @@ class CostConeList extends ConsumerWidget{
     }):super(key: key);
 
   final double coneWidth;
+
+  
 
   @override
   Widget build(context,WidgetRef ref){

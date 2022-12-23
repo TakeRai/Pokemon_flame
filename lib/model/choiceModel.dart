@@ -5,7 +5,9 @@ import 'package:pokemon_flame/widgets/ripple/ripple.dart';
 
 class ChoiceModel{
   ChoiceModel({
-    required this.focusedIndex,required this.dragCost,
+    required this.focusedIndex,
+    required this.dragCost,
+    required this.infoCost,
     required this.top_drag,required this.left_drag,
     required this.isAbleGoBattle,
     required this.choicedMonsterCosts,
@@ -14,6 +16,7 @@ class ChoiceModel{
 
   int focusedIndex;
   int dragCost;
+  int infoCost;
   double top_drag;
   double left_drag;
   bool isAbleGoBattle;

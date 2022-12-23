@@ -26,7 +26,13 @@ class BaseCard extends StatelessWidget{
             child: Container(
               padding: EdgeInsets.only(bottom: 10),
               width: width * 0.9,height: width * 0.9,
-              child: Image.asset("assets/images/amon-face.jpg",fit: BoxFit.fill,),
+              child: Image.asset(
+                // "assets/images/amon-face.jpg",
+                // fit: BoxFit.fill,
+                // "assets/images/fenrir-face.jpg",
+                "assets/images/fenrir_back.jpeg",
+                fit: BoxFit.fitHeight,
+                ),
             )
           ),
 

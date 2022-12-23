@@ -1,11 +1,16 @@
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokemon_flame/battle/battlePage.dart';
 import 'package:pokemon_flame/battle/dialogbox.dart';
 import 'package:pokemon_flame/main.dart';
 import 'package:pokemon_flame/widgets/button/animeButton.dart';
+import 'package:pokemon_flame/widgets/designedText.dart';
+import 'package:pokemon_flame/widgets/monsterInfomation/infomodal.dart';
 import 'package:pokemon_flame/widgets/ripple/ripple.dart';
 import 'package:pokemon_flame/widgets/typedTextDelayed.dart';
 import 'package:pokemon_flame/widgets/cards/dragcards.dart';
@@ -41,6 +46,15 @@ class ChoicePageState extends ConsumerState<ChoicePage>{
     ]
   ];
 
+  late AssetImage costCircle;
+  AssetImage buttonImage = const AssetImage("assets/images/button_battle3.png");
+
+  @override
+  void initState(){
+    super.initState();
+    costCircle = AssetImage("assets/images/costCircle3.png");
+  }
+
   @override
   Widget build(context){
 
@@ -52,13 +66,11 @@ class ChoicePageState extends ConsumerState<ChoicePage>{
     final safeAreaBottom = MediaQueryData.fromWindow(ui.window).padding.bottom;
     final availableHeight = deviceHeight - safeAreaTop - safeAreaBottom;
       
-
-
-    return Scaffold(
-      body: Container(
+    return Container(
         width: double.infinity,
         child: Stack(
           children: [
+
             Column(
               children: [
                 Row(
@@ -66,9 +78,9 @@ class ChoicePageState extends ConsumerState<ChoicePage>{
                       Container(
                         width: deviceWidth /5,
                         height: deviceWidth / 5 * 1.25,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage("assets/images/costCircle3.png"),
+                            image: costCircle,
                             fit: BoxFit.fill
                           )
                         ),
@@ -113,7 +125,9 @@ class ChoicePageState extends ConsumerState<ChoicePage>{
                     onItemFocus: choiceprov.focusedIndexChange,
                     duration: 100,
                     dynamicItemSize: true,
-                    // scrollPhysics: const NeverScrollableScrollPhysics(),
+                    scrollPhysics: CustomPhysics(here: (){
+                      choiceprov.monsterCardTap(-1);
+                    }),
                   ),
                 ),
 
@@ -156,6 +170,7 @@ class ChoicePageState extends ConsumerState<ChoicePage>{
                           });
                         } : (){},
                         height: 75,
+                        image: buttonImage,
                         )
                     ],
                   ),
@@ -181,10 +196,40 @@ class ChoicePageState extends ConsumerState<ChoicePage>{
             for(var i=0; i< choiceprov.mo.ripplelist.length; i++)...[
               choiceprov.mo.ripplelist[i]
             ],
+
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: InfoModal(availableHeight: availableHeight)
+            )
           ],
         )
-      )
+      
+    
     );
+
+    
+  }
+
+}
+
+class CustomPhysics extends BouncingScrollPhysics{
+
+  const CustomPhysics({
+    required this.here
+  });
+
+  final Function here;
+
+    @override
+  BouncingScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return CustomPhysics(here: here);
+  }
+
+  @override
+  double applyPhysicsToUserOffset(ScrollMetrics metrics, double offset) {
+    // スクロール時に実行する処理
+    here();
+    return super.applyPhysicsToUserOffset(metrics, offset);
   }
 
 }

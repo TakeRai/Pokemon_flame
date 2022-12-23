@@ -11,13 +11,15 @@ class Button1 extends StatelessWidget{
     required this.text,
     required this.height,
     required this.fontsize,
-    required this.pressed
+    required this.pressed,
+    required this.image
     }):super(key: key);
 
   final String text;
   final double height;
   final double fontsize;
   final bool pressed;
+  final AssetImage image;
 
   @override
   Widget build(context){
@@ -27,7 +29,7 @@ class Button1 extends StatelessWidget{
       height: height,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/button_battle3.png"),
+          image: image,
           fit: BoxFit.fill,
           colorFilter: pressed ? ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.srcATop) : null
           )
@@ -49,7 +51,8 @@ class Button1Opacity extends ConsumerStatefulWidget{
     required this.text,
     required this.height,
     required this.fontsize,
-    required this.pressed
+    required this.pressed,
+    required this.image
     }):super(key: key);
 
   final double opacity;
@@ -57,6 +60,7 @@ class Button1Opacity extends ConsumerStatefulWidget{
   final double height;
   final double fontsize;
   final bool pressed;
+  final AssetImage image;
 
   ConsumerState<Button1Opacity> createState() => Button1OpacityState();
 }
@@ -73,6 +77,7 @@ class Button1OpacityState extends ConsumerState<Button1Opacity>{
         text: widget.text,height: widget.height,
         fontsize: widget.fontsize,
         pressed: widget.pressed,
+        image: widget.image,
         ),
       );
   }
@@ -87,6 +92,7 @@ class Button1Gesture extends ConsumerStatefulWidget{
     required this.fontsize,
     required this.tap,
     required this.height,
+    required this.image
     }):super(key: key);
 
   final double opacity;
@@ -94,6 +100,7 @@ class Button1Gesture extends ConsumerStatefulWidget{
   final double fontsize;
   final void Function() tap;
   final double height;
+  final AssetImage image;
 
   ConsumerState<Button1Gesture> createState() => Button1GestureState();
 }
@@ -108,11 +115,8 @@ class Button1GestureState extends ConsumerState<Button1Gesture>{
       Container(
         width: widget.height*2,height: widget.height,
         margin: EdgeInsets.only(top: widget.height/20),
-        child: Image.asset(
-          "assets/images/button_battle3.png",
-          fit: BoxFit.fill,
-          color: Colors.black.withOpacity(0.4),
-          ),
+        child: Image(image: widget.image,fit: BoxFit.fill,color: Colors.black.withOpacity(0.4),),
+
       ),
       GestureDetector(
         onTap: widget.tap,
@@ -132,6 +136,7 @@ class Button1GestureState extends ConsumerState<Button1Gesture>{
           fontsize: widget.fontsize,
           height: widget.height,
           pressed: pressed,
+          image: widget.image,
           ),
       )
     ],);

@@ -51,6 +51,7 @@ class MoveButtonUIState extends ConsumerState<MoveButtonUI>{
           fit: BoxFit.fill,
           colorFilter: pressed ? ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.srcATop) : null
           ),
+            
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

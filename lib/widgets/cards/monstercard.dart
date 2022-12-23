@@ -5,7 +5,6 @@ import 'package:pokemon_flame/choice/choiceConfig.dart';
 import 'package:pokemon_flame/widgets/cards/basecard.dart';
 
 
-
 class BaseCardOpacity extends StatelessWidget{
   const BaseCardOpacity({
     Key? key,
@@ -30,7 +29,7 @@ class BaseCardOpacity extends StatelessWidget{
         width: width,
         fontSize: fontSize,
       ),
-      );
+    );
   }
 }
 
@@ -60,11 +59,15 @@ class MonsterCard extends ConsumerWidget{
   final double fontSize;
   final double safeAreaTop;
 
+  
+
   @override
   Widget build(BuildContext context,WidgetRef ref){
     final prov = ref.watch(choiceProvider);
     final choicedCosts = prov.mo.choicedMonsterCosts;
     bool choicedThis = choicedCosts.contains(costIndex);
+
+
 
     return SizedBox(
       height: monsterCardWidth * Config_Choice.cardHeightMagni,
@@ -77,11 +80,8 @@ class MonsterCard extends ConsumerWidget{
           fontSize: fontSize,
           ),
         onTap: (){
-          showDialog(context: context, builder: (context){
-            return Center(
-              child: Text("dialog"),
-            );
-          });
+          prov.monsterCardTap(costIndex);
+
         },
         onLongPressStart: choicedThis ? null :
          (details) {

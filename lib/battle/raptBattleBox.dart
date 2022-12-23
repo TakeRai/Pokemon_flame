@@ -22,9 +22,9 @@ class RaptBattleBoxState extends ConsumerState<RaptBattleBox>{
   void initState() {
     super.initState();
     text = TypedTextDelayed(key: key0,text: "ここはrapt",duration: Duration(milliseconds: 50),);
-    FlameAudio.audioCache.loadAll(['se/thunder.mp3']);
+    // FlameAudio.audioCache.loadAll(['se/thunder.mp3']);
+    
     animFlow();
-
   }
 
   @override
@@ -36,7 +36,7 @@ class RaptBattleBoxState extends ConsumerState<RaptBattleBox>{
    Future.delayed(Duration(milliseconds: 1000)).then((value){
       final prov = ref.watch(battleProvider);
       prov.AnimationSwitch(0, true);
-      FlameAudio.play('se/thunder.mp3');
+      FlameAudio.play('se/thunder.mp3',volume: 0.3);
       
     });
 
@@ -54,6 +54,12 @@ class RaptBattleBoxState extends ConsumerState<RaptBattleBox>{
       setState(() {
       text = TypedTextDelayed(key: key1,text: "効果はばつぐん",duration: Duration(milliseconds: 50),);
     });
+    });
+
+    Future.delayed(Duration(milliseconds: 5000)).then((value){
+      
+      final prov = ref.watch(battleProvider);
+      prov.PageIndexChange(0);
     });
   }
 }

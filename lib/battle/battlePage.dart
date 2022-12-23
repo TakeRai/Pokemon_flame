@@ -73,13 +73,11 @@ class BattlePageState extends ConsumerState<BattlePage>{
     
 
     if(effect1 == null || effect2 == null){
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator(),),
-      );
+      return Center(child: CircularProgressIndicator(),);
+      
     }
 
-    return Scaffold(
-      body: Column(
+    return Column(
         children: [
           Container(
             width: double.infinity,
@@ -163,7 +161,7 @@ class BattlePageState extends ConsumerState<BattlePage>{
 
         ],
         
-      )
+      
     );
   }
 
@@ -221,7 +219,7 @@ class Effect extends PositionComponent with HasGameRef<FlameGame>{
             ]
           ], 
           stepTime: 0.125,
-          loop: false
+          loop: true
           ),
         
       )
